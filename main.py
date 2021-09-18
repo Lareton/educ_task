@@ -19,8 +19,8 @@ word2vec_model300 = api.load('word2vec-ruscorpora-300')
 
 good_words = []         # слова которые помогают определить категорию
 best_words = []         # слова которые совпадают с конечной категорией
-PREDICT = False         # нужно ли делать предикт на всех тестовых данных
-COUNT_SMALL_TEST = 53   # кол-во в ручную размеченных данных
+PREDICT = True          # нужно ли делать предикт на всех тестовых данных
+COUNT_SMALL_TEST = 100  # кол-во в ручную размеченных данных
 COUNT_BIG_TEST = 514   # кол-во в ручную размеченных данных
 
 
@@ -85,10 +85,11 @@ def mean_distances(word, words_thems):
 
 
 words_thems = dict()
-words_thems["спорт"] = ["спорт"] * 20 + ["футбол", "мяч", "велосипед"] + ["волейбол"] + ["бежать"] + ["плыть"] + ["грести"] + ["прыжок", "сдавать", "ролик"]
-words_thems["музыка"] = ["музыка"] * 20 + ["скрипка", "флейта", "гитара", "пианино"]
-words_thems["литература"] = ["литература"] * 20 +  ["писатель", "написать", "сочинение", "герой", "произведение", "книга", "бумага", "газета"]
-words_thems["животные"] = ["животное"] * 20 + ['собака', 'тигр', 'лев', 'жираф', 'дельфин', 'акула', 'кошка', 'бабочка', 'насекомое', 'млекопитающее', 'змея', "кролик", "удочка", "пчела"]
+words_thems["спорт"] = ["спорт"] * 30 + ["футбол", "мяч", "велосипед"] + ["волейбол"] + ["бежать"] + ["плыть"] + ["грести"] + ["прыжок", "сдавать", "ролик"] + ["бассейн", "дайвинг", "соревнование", "ныряние", "дайвинг", "углевод"] + ["гимнастика", "гимнаст", "гимнастка"]
+words_thems["музыка"] = ["музыка"] * 30 + ["скрипка", "флейта", "гитара", "пианино", "музыкант", "оркестр", "нота"]
+words_thems["литература"] = ["литература"] * 30 + ["писатель", "написать", "сочинение", "герой", "произведение", "книга", "бумага", "газета", "рецепт", "кулинария", "история", "финансы", "библиотека", "словарь"]
+words_thems["животные"] = ["животное"] * 30 + ['собака', 'тигр', 'лев', 'жираф', 'дельфин', 'акула', 'кошка', 'бабочка', 'насекомое', 'млекопитающее', 'змея', "кролик", "удочка", "пчела", "животное", "питомец", "корм", "ферма", "пчела", "индюшка", "животноводство", "птица", "воробей", "парнокопытное", "пресмыкающееся"]
+
 
 # for i in  themes_raw[:-1]:
 #     words_thems[i] *= 2
@@ -167,7 +168,7 @@ def main_function(text):
         for j in range(4):
             main_res[j] += i[j + 1]
 
-    if  len(important_cases) == 0:
+    if len(important_cases) == 0:
         return -1
 
     for i in range(4):
@@ -198,6 +199,7 @@ else:
 for ind, i in enumerate(sample["task"][:count_tests]):
     my_answers.append(main_function(i))
     print("answer: ", themes_raw[my_answers[-1]], list(set(best_words[:3])))
+    # print(ind)
     results_answers.append([ind, themes_raw[my_answers[-1]], ";".join(list(set(best_words[:3])))])
 
     for i in range(5):
@@ -208,7 +210,7 @@ print(results_answers)
 if PREDICT:
     data = results_answers
 
-    with open('sub1.csv', 'w', encoding="utf-8", newline='') as f:
+    with open('sub2.csv', 'w', encoding="utf-8", newline='') as f:
         writer = csv.writer(f)
         for row in data:
 
@@ -217,7 +219,8 @@ if PREDICT:
     print("ALL WRITED")
 
 
-answers = [0, 3, 0, 3, 0, 0, 2, 0, 0, 0, 2, 0, 3, 0, 0, 0, 0, 2, 0, 2, 3, 0, 2, 0, 0, 2, 0, 2, 2, 0, 0, 3, 0, 3, 0, 0, 0, 0, 0, 0, 2, 3, 0, 1, 2, 0, 0, 0, 0, 2, 3, 3, 2]
+answers = [0, 3, 0, 3, 0, 0, 2, 0, 0, 0, 2, 0, 3, 0, 0, 0, 0, 2, 0, 2, 3, 0, 2, 0, 0, 2, 0, 2, 2, 0, 0, 3, 0, 3, 0, 0, 0, 0, 0, 0, 2, 3, 0, 1, 2, 0, 0, 0, 0, 2, 3, 3, 2,
+           3, 2, 0, 0, 0, 2, 1, 1, 2, 3, 0, 0, 3, 3, 0, 0, 2, 0, 2, 2, 3, 0, 0, 3, 2, 3, 3, 3, 3, 0, 0, 0, 3, 0, 0, 0, 2, 2, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0]
 
 print(answers)
 print(my_answers)
@@ -232,9 +235,10 @@ for i in range(COUNT_SMALL_TEST):
         wrong_answers += 1
         print("noooo", i)
         print(sample["task"][i].replace("\n", ""), "----"*5, my_answers[i], answers[i])
+        print(results_answers[i+1])
 print(wrong_answers)
 
-
+"""
 bot = telebot.TeleBot('1454441673:AAE4jugofHCscmt5-ufg_whJ4dd471OJodM')
 
 
@@ -251,3 +255,5 @@ def get_text_messages(message):
         bot.send_message(message.from_user.id, f"мне помогли слова {best_words}")
 logging.info(" start bot....")
 bot.polling(none_stop=True, interval=0)
+"""
+
