@@ -30,6 +30,7 @@ class BertClassifier:
         Принимает на вход: str, текст;
         Возвращает: str, предсказанный класс.
         """
+        text = " ".join(text.split(" ")[:min(len(text), 513)]) # обрежим текст до первых 512 слов
         encoding = self.tokenizer.encode_plus(
             text,
             add_special_tokens=True,
