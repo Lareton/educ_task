@@ -15,4 +15,7 @@ task = """Реши задачу. Сколько коробок
  
 text_classifier = BertClassifier("theme_classifier_weights.pt")  
 theme = text_classifier.predict(task)  
-similarity_words = getMostSimilarityWords(task, theme)```
+similarity_words = getMostSimilarityWords(task, theme)
+
+print("Тема:", theme) # животные
+print("Помогли слова:", *similarity_words) # собака корм соответственно
