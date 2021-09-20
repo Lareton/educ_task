@@ -1,7 +1,7 @@
 # educ_task
-Education task for ML sber competition
+Модели для определения тематики текста и ключевых слов
 
-ссылка на веса:  https://drive.google.com/file/d/1tXnLYCxs8Lgpg4YmlG8NsWNw1X-YB7BX/view?usp=sharing  
+ссылка на веса для модели классификатора:  https://drive.google.com/file/d/1tXnLYCxs8Lgpg4YmlG8NsWNw1X-YB7BX/view?usp=sharing  
 
 пример использования:  
 
