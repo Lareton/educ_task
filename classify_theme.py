@@ -18,9 +18,14 @@ class BertClassifier:
         """
         model_path: путь до весов предобученной модели;
         """
-        self.model = torch.load(model_path)
-        self.tokenizer = BertTokenizer.from_pretrained('cointegrated/rubert-tiny')
         self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+
+        if torch.cuda.is_available():
+            self.model = torch.load(model_path)
+        else:
+            self.model = torch.load(model_path, map_location="cpu")
+
+        self.tokenizer = BertTokenizer.from_pretrained('cointegrated/rubert-tiny')
         self.max_len = 512
         self.class_decoder = {0: "спорт", 1: "музыка", 2: "литература", 3: "животные"}
     
@@ -55,7 +60,8 @@ class BertClassifier:
             input_ids=input_ids.unsqueeze(0),
             attention_mask=attention_mask.unsqueeze(0)
         )
-        
+
+        accuracy = torch.nn.functional.softmax(outputs.logits, dim=1).max().item()
         prediction = torch.argmax(outputs.logits, dim=1).cpu().numpy()[0]
 
-        return self.class_decoder[prediction]
+        return self.class_decoder[prediction], accuracy
