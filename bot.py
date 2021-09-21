@@ -33,9 +33,9 @@ def send_text(message):
             task = message.text
             text_classifier = BertClassifier("theme_classifier_weights.pt")
             theme, accuracy = text_classifier.predict(task)
-            similarity_words = getMostSimilarityWords(task, theme)
+            similarity_words = getMostSimilarityWords(task, theme, max_count=7, max_difference=2.3)
 
-            answer_predict = f"""*Категория данного текста*: {theme}\n*Точность*: {accuracy}\n*Ключевые слова*: {", ".join(similarity_words)}"""
+            answer_predict = f"""*Категория данного текста*: {theme}\n*Уверенность*: {round(accuracy, 3)*100}%\n*Ключевые слова*: {", ".join(similarity_words)}"""
             bot.send_message(message.chat.id, answer_predict,  parse_mode="Markdown")
 
 print("starting bot...")
