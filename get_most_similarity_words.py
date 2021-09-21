@@ -70,13 +70,14 @@ def prepareText(text: str) -> list:
     return out
 
 
-def getMostSimilarityWords(text:str, theme:str, n:int=3) -> list:
+def getMostSimilarityWords(text:str, theme:str, max_count:int=3, max_difference:float=3.0) -> list:
     """
     Функция для вычисления самых близко-относящихся к заданной теме слов в тексте.
     Принимает:
         -text: str, текст, в котором мы ищем наиболее близкоотносящиеся к теме слова;
         -theme: str, тема, к которой мы ищем наиболее близкоотносящиеся слова;
-        -n: int, количество интересующих нас наиболее бликоотносящихся слов.
+        -max_count: int, количество интересующих нас наиболее бликоотносящихся слов.
+        -max_difference: float, максимальное кол-во раз, в которое может отличаться влияние самого слабого ключевого слова от самого сильного.
     Возвращает:
         -mostSimilarityWords: list длинной в n с самыми близкоотносящимися к theme словами в строке text.
     Пример использования:
@@ -92,4 +93,13 @@ def getMostSimilarityWords(text:str, theme:str, n:int=3) -> list:
         wordSimilarity[word] = similarity
         
     wordSimilaritySorted = dict(sorted(wordSimilarity.items(), key=lambda item: item[1], reverse=True))
-    return list(wordSimilaritySorted.keys())[:min(len(wordSimilaritySorted), n)]
+    print(wordSimilaritySorted.items())
+    wordSimilaritySorted = list(wordSimilaritySorted.items())[:min(len(wordSimilaritySorted), max_count)]
+
+    # фильтруем ключевые слова чтобы отбросить слова с маленьким влиянием на категорию
+    res_words = []
+    max_acc = wordSimilaritySorted[0][1]
+    for word, acc in wordSimilaritySorted:
+        if max_acc / acc <= max_difference:
+            res_words.append(word)
+    return res_words
