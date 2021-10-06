@@ -3,7 +3,7 @@ from messages import ERROR_MESSAGE, START_MESSAGE, ABOUT_US_MESSAGE, INSTRUCTION
 from classify_theme import BertClassifier
 from get_most_similarity_words import getMostSimilarityWords
 
-TOKIN = "2002168472:AAGqtBG-7EqRzPB1pwBQrE79-c0svzcOf4c"
+TOKIN = "xxxxxxx"
 bot = telebot.TeleBot(TOKIN)
 
 # обрабатываем команду /start
