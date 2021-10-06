@@ -1,13 +1,6 @@
 # импортируем нужные библиотеки
 
 from transformers import BertTokenizer, BertForSequenceClassification
-from torch.utils.data import Dataset, DataLoader
-from transformers import AdamW, get_linear_schedule_with_warmup
-from torch.utils.data import Dataset
-from sklearn.model_selection import train_test_split
-
-import numpy as np
-import pandas as pd
 import torch
 import json
 
