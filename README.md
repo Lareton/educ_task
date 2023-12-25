@@ -18,8 +18,6 @@
           -get_most_similarity_words.py - алгоритмы определения ключевых слов;  
           -sample_submission.csv, submission_with_rubert.csv, test.csv - файлы для разметки тестовой выборки.  
 
-ссылка на обученные веса для модели классификатора текста:  https://drive.google.com/file/d/1tXnLYCxs8Lgpg4YmlG8NsWNw1X-YB7BX/view?usp=sharing  
-
 пример использования алгоритма:  
 
 ```python
